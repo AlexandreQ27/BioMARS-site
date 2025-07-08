@@ -1,70 +1,453 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BioMARS: A Multi-Agent Robotic System</title>
-  <link rel="stylesheet" href="style.css" />
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioMARS | Biological Multi-Agent Robotic System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#00B42A',
+                        accent: '#FF7D00',
+                        dark: '#1D2129',
+                        light: '#F2F3F5'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 10px 30px -5px rgba(0, 0, 0, 0.1)',
+                        'hover': '0 20px 40px -5px rgba(22, 93, 255, 0.15)',
+                    }
+                },
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-15px); }
+                100% { transform: translateY(0px); }
+            }
+            .animate-pulse-slow {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+        }
+    </style>
 </head>
-<body>
-  <div class="sidebar">
-    <h2>BioMARS</h2>
-    <nav>
-      <a href="#intro">Introduction</a>
-      <a href="#architecture">System Architecture</a>
-      <a href="#agents">Three-Agent Collaboration</a>
-      <a href="#results">Experiment Results</a>
-      <a href="#future">Future Work</a>
-      <a href="#resources">Resources</a>
-    </nav>
-  </div>
 
-  <div class="main">
-    <section id="intro">
-      <h1>BioMARS: A Multi-Agent Robotic System for Workflow Automation in Biological Experiments</h1>
-      <p>BioMARS pioneers full-stack automation of biological experiments by integrating large language models (LLMs) and vision-language models (VLMs) into a multi-agent robotic system.</p>
-      <p>It empowers AI agents to autonomously plan, execute, and validate biological procedures such as cell passaging and protocol optimization, reducing human workload and improving reproducibility.</p>
-    </section>
+<body class="font-inter bg-gradient-to-br from-light to-white text-dark antialiased">
+    <!-- Navigation -->
+    <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
+                    <i class="fa fa-cogs text-white text-xl"></i>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">BioMARS</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#abstract" class="font-medium hover:text-primary transition-colors">Abstract</a>
+                <a href="#architecture" class="font-medium hover:text-primary transition-colors">Architecture</a>
+                <a href="#features" class="font-medium hover:text-primary transition-colors">Features</a>
+                <a href="#demo" class="font-medium hover:text-primary transition-colors">Demo</a>
+                <a href="#paper" class="font-medium hover:text-primary transition-colors">Paper</a>
+                <a href="https://github.com/AlexandreQ27/BioMARS" class="px-5 py-2 rounded-full bg-primary text-white font-medium hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/20">
+                    <i class="fa fa-github mr-2"></i>Code
+                </a>
+            </nav>
+            
+            <!-- Mobile Navigation Toggle -->
+            <button id="menu-toggle" class="md:hidden text-2xl">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/90 bg-blur shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="#abstract" class="font-medium hover:text-primary transition-colors py-2">Abstract</a>
+                <a href="#architecture" class="font-medium hover:text-primary transition-colors py-2">Architecture</a>
+                <a href="#features" class="font-medium hover:text-primary transition-colors py-2">Features</a>
+                <a href="#demo" class="font-medium hover:text-primary transition-colors py-2">Demo</a>
+                <a href="#paper" class="font-medium hover:text-primary transition-colors py-2">Paper</a>
+                <a href="#" class="px-5 py-3 rounded-full bg-primary text-white font-medium hover:bg-primary/90 transition-all shadow-lg text-center">
+                    <i class="fa fa-github mr-2"></i>Code
+                </a>
+            </div>
+        </div>
+    </header>
 
-    <section id="architecture">
-      <h2>System Architecture</h2>
-      <p>The BioMARS system adopts a modular design, integrating robotic control units with semantic reasoning capabilities. It supports both low-level execution and high-level autonomous decision making.</p>
-      <img src="images/system_architecture.png" alt="System Architecture" />
-    </section>
+    <main class="pt-24 pb-16">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden">
+            <div class="container mx-auto px-4 py-16 md:py-24">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight">
+                            <span class="block">BioMARS</span>
+                            <span class="bg-gradient-to-r from-primary to-secondary text-gradient">Biological Multi-Agent Robotic System</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-600 max-w-xl">
+                            An intelligent platform integrating Large Language Models (LLMs), Vision–Language Models (VLMs), and modular robotics to enable autonomous design, planning, and execution of biological experiments.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#abstract" class="px-8 py-3 rounded-full bg-primary text-white font-medium hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/20 flex items-center">
+                                <i class="fa fa-book mr-2"></i>Read More
+                            </a>
+                            <a href="#demo" class="px-8 py-3 rounded-full bg-white text-primary font-medium hover:bg-gray-50 transition-all shadow-lg border border-gray-200 flex items-center">
+                                <i class="fa fa-play-circle mr-2"></i>Watch Demo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -top-10 -left-10 w-64 h-64 bg-primary/10 rounded-full filter blur-3xl"></div>
+                        <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-secondary/10 rounded-full filter blur-3xl"></div>
+                        <img src="https://github.com/user-attachments/assets/25eb2092-411d-4605-a4d1-42a6c696c4f1" alt="BioMARS System Architecture" class="rounded-xl shadow-card animate-float relative z-10 max-w-full mx-auto">
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="agents">
-      <h2>Three-Agent Collaboration</h2>
-      <h3>1. Biologist Agent</h3>
-      <p>Retrieves and synthesizes protocols from literature using retrieval-augmented generation (RAG), adapts them to current lab constraints (inventory, equipment), and outputs executable instructions.</p>
+        <!-- Abstract Section -->
+        <section id="abstract" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">
+                        <span class="inline-block border-b-4 border-primary pb-2">Abstract</span>
+                    </h2>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-card p-8 md:p-12 max-w-4xl mx-auto">
+                    <p class="text-lg leading-relaxed mb-6">
+                        Large language models (LLMs) and vision–language models (VLMs) hold transformative potential for biological research by enabling autonomous experimentation. However, their application is hindered by rigid protocol design, limited adaptability to dynamic lab conditions, inadequate error handling, and high operational complexity. We introduce <strong>BioMARS</strong>, a multi-agent system combining LLMs, VLMs, and modular robotics to autonomously design and execute biological experiments.
+                    </p>
+                    
+                    <div class="bg-gradient-to-r from-primary/5 to-secondary/5 p-6 rounded-xl my-8 border-l-4 border-primary">
+                        <h3 class="text-xl font-semibold mb-3">BioMARS Hierarchical Architecture</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-3 mt-0.5 flex-shrink-0">
+                                    <i class="fa fa-flask text-sm"></i>
+                                </div>
+                                <div>
+                                    <span class="font-medium">Biologist Agent:</span> 
+                                    Synthesizes experimental protocols via retrieval-augmented generation.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center text-secondary mr-3 mt-0.5 flex-shrink-0">
+                                    <i class="fa fa-cogs text-sm"></i>
+                                </div>
+                                <div>
+                                    <span class="font-medium">Technician Agent:</span> 
+                                    Translates protocols into executable robotic pseudo-code.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent mr-3 mt-0.5 flex-shrink-0">
+                                    <i class="fa fa-eye text-sm"></i>
+                                </div>
+                                <div>
+                                    <span class="font-medium">Inspector Agent:</span> 
+                                    Ensures procedural integrity through multimodal perception and anomaly detection.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-lg leading-relaxed">The system autonomously performs cell passaging and culture tasks, achieving or exceeding manual performance in viability, consistency, and morphological integrity. It also supports context-aware optimization, outperforming conventional strategies in differentiating retinal pigment epithelial cells. A web interface enables real-time human-AI collaboration, while a modular backend allows scalable integration with laboratory hardware. These results demonstrate the feasibility of generalizable, AI-driven laboratory automation and the transformative role of language-based reasoning in biological research.</p>
+                </div>
+            </div>
+        </section>
 
-      <h3>2. Technician Agent</h3>
-      <p>Converts natural language protocols into robotic commands. Employs dual-module generation & checking to achieve a 96.4% accuracy in instruction mapping.</p>
+        <!-- Architecture Section -->
+        <section id="architecture" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">
+                        <span class="inline-block border-b-4 border-primary pb-2">System Architecture</span>
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <div class="order-2 md:order-1 md:col-span-2">
+                        <h3 class="text-2xl font-bold mb-6">Agents Overview</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 rounded-xl overflow-hidden shadow-card">
+                                <thead class="bg-primary text-white">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Agent</th>
+                                        <th scope="col" class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">Function</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-3">
+                                                    <i class="fa fa-flask"></i>
+                                                </div>
+                                                <div class="font-medium">Biologist Agent</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            Generates experimental protocols using retrieval-augmented generation (RAG)
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mr-3">
+                                                    <i class="fa fa-cogs"></i>
+                                                </div>
+                                                <div class="font-medium">Technician Agent</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            Converts natural language protocols into robotic pseudo-code
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-accent mr-3">
+                                                    <i class="fa fa-eye"></i>
+                                                </div>
+                                                <div class="font-medium">Inspector Agent</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            Monitors processes and detects anomalies via multimodal perception
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <h3>3. Inspector Agent</h3>
-      <p>Performs real-time error detection during experiment execution using a ViT + VLM dual-stage framework. Detects over 23 common lab anomalies with 95.7% precision.</p>
-    </section>
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">
+                        <span class="inline-block border-b-4 border-primary pb-2">Key Features</span>
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature Card 1 -->
+                    <div class="bg-white rounded-xl shadow-card p-8 hover:shadow-hover transition-all transform hover:-translate-y-1">
+                        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6">
+                            <i class="fa fa-mortar-board text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Autonomous Experiment Design & Execution</h3>
+                    </div>
+                    
+                    <!-- Feature Card 2 -->
+                    <div class="bg-white rounded-xl shadow-card p-8 hover:shadow-hover transition-all transform hover:-translate-y-1">
+                        <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mb-6">
+                            <i class="fa fa-eye text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Multimodal Perception & Anomaly Detection</h3>
+                    </div>
+                    
+                    <!-- Feature Card 3 -->
+                    <div class="bg-white rounded-xl shadow-card p-8 hover:shadow-hover transition-all transform hover:-translate-y-1">
+                        <div class="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6">
+                            <i class="fa fa-flask text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Automated Cell Culture & Passaging</h3>
+                    </div>
+                    
+                    <!-- Feature Card 4 -->
+                    <div class="bg-white rounded-xl shadow-card p-8 hover:shadow-hover transition-all transform hover:-translate-y-1">
+                        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6">
+                            <i class="fa fa-cogs text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Context-Aware Optimization</h3>
+                    </div>
+                    
+                    <!-- Feature Card 5 -->
+                    <div class="bg-white rounded-xl shadow-card p-8 hover:shadow-hover transition-all transform hover:-translate-y-1">
+                        <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center text-secondary mb-6">
+                            <i class="fa fa-puzzle-piece text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Modular Integration/Software Integration</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="results">
-      <h2>Experiment Results</h2>
-      <ul>
-        <li><strong>Cell Passaging:</strong> Comparable to human performance on HeLa, Y79 lines. BioMARS achieved >92% viability, 12–18% lower coefficient of variation, and 90% time reduction.</li>
-        <li><strong>iPSC-RPE Optimization:</strong> Outperformed Bayesian and GPT-4o baselines. Reached a pigmentation score of 0.5913 in 20 iterations (vs 0.3130 and 0.4344).</li>
-      </ul>
-    </section>
+        <!-- Demo Section -->
+        <section id="demo" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">
+                        <span class="inline-block border-b-4 border-primary pb-2">Demo</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        Real-world robot experiments.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Demo 1 -->
+                    <div class="bg-white rounded-xl shadow-card overflow-hidden group">
+                        <div class="relative overflow-hidden">
+                            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/f363220387b84726adc444ec230daf6a~tplv-a9rns2rl98-image.image?rk3s=8e244e95&rrcfp=e75484ac&x-expires=1752573010&x-signature=tsDiaU3MW7MbcMt%2FthZmFJ67AuI%3D" alt="Cell Culture Experiment" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-[13px] opacity-80">redpandacompress_video.of.experiment.x20.speed.mp4</p>
+                                </div>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <a href="https://github.com/user-attachments/assets/ea469a13-d455-48d0-ab5d-f2b5bd704555" target="_blank" class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white border-2 border-white">
+                                    <i class="fa fa-play text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Demo 2 -->
+                    <div class="bg-white rounded-xl shadow-card overflow-hidden group">
+                        <div class="relative overflow-hidden">
+                            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/2fc293f0436a4d209c6952d54c6b5193~tplv-a9rns2rl98-image.image?rk3s=8e244e95&rrcfp=e75484ac&x-expires=1752573148&x-signature=GZL9pLLTvQne%2BWjS7QTvX0CsbCo%3D" alt="Protocol Execution" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-[13px] opacity-80">redpandacompress_video.of.UI.interface.x20.speed.mp4</p>
+                                </div>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <a href="https://github.com/user-attachments/assets/f134ed1c-4727-4379-83e4-ce3af4dedff3" target="_blank" class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white border-2 border-white">
+                                    <i class="fa fa-play text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Demo 3 -->
+                    <div class="bg-white rounded-xl shadow-card overflow-hidden group">
+                        <div class="relative overflow-hidden">
+                            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/be5bad01c66b490683ffcc7d08ebc28c~tplv-a9rns2rl98-image.image?rk3s=8e244e95&rrcfp=e75484ac&x-expires=1752573370&x-signature=knwW5WqrFBbcaPkmPivq8XzbU6Y%3D" alt="Anomaly Detection" class="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                                <div class="text-white">
+                                    <p class="text-[13px] opacity-80">redpandacompress_video.of.system.replan.x20.speed.mp4</p>
+                                </div>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <a href="https://github.com/user-attachments/assets/609dffaf-0cc4-4119-b23c-3efd48e5098e" target="_blank" class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white border-2 border-white">
+                                    <i class="fa fa-play text-2xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="future">
-      <h2>Future Work</h2>
-      <p>BioMARS aims to extend its autonomous reasoning capabilities and support broader laboratory environments. Future updates will include enhanced anomaly handling and domain-specific agent customization.</p>
-    </section>
+        <!-- Paper Section -->
+        <section id="paper" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold mb-4">
+                        <span class="inline-block border-b-4 border-primary pb-2">Paper</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        For more detailed information about BioMARS, please refer to our research paper.
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-card p-8 md:p-12 max-w-4xl mx-auto">
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="w-48 h-64 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                            <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/f20a82cd5f5541e1a079bc8876bfbb69~tplv-a9rns2rl98-image.image?rk3s=8e244e95&rrcfp=e75484ac&x-expires=1752573574&x-signature=B0IE9R6RlmXUw%2FFcliZYjr2DNyw%3D" alt="BioMARS Research Paper" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4">BioMARS: A Multi-Agent Robotic System for Autonomous Biological Experiments</h3>
+                            <p class="text-gray-600 mb-4">
+                                Yibo Qiu, Zan Huang, Zhiyu Wang, Handi Liu, Yiling Qiao, Yifeng Hu, Shu'ang Sun, Hangke Peng, Ronald X Xu, Mingzhai Sun
+                            </p>
+                            <div class="flex flex-wrap gap-3 mb-6">
+                                <span class="px-4 py-1 bg-primary/10 text-primary text-sm rounded-full">arXiv:2507.01485</span>
+                            </div>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="https://arxiv.org/abs/2507.01485" target="_blank" class="px-6 py-3 rounded-full bg-primary text-white font-medium hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/20 flex items-center">
+                                    <i class="fa fa-file-pdf-o mr-2"></i>Download PDF
+                                </a>
+                                <a href="https://github.com/AlexandreQ27/BioMARS" class="px-6 py-3 rounded-full bg-white text-primary font-medium hover:bg-gray-50 transition-all shadow-lg border border-gray-200 flex items-center">
+                                    <i class="fa fa-database mr-2"></i>Supplementary Data
+                                </a>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10 pt-6 border-t border-gray-100">
+                        <h4 class="text-xl font-semibold mb-4">Citation</h4>
+                        <div class="bg-gray-50 p-4 rounded-lg font-mono text-sm overflow-x-auto">
+                            @article{qiu2025biomars,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;title={BioMARS: A Multi-Agent Robotic System for Workflow Automation in Biological Experiments},<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;author={Yibo Qiu, Zan Huang, Zhiyu Wang, Handi Liu, Yiling Qiao, Yifeng Hu, Shu'ang Sun, Hangke Peng, Ronald X Xu, Mingzhai Sun},<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;journal={arXiv preprint arXiv:2507.01485},<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;year={2025}<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="resources">
-      <h2>Resources</h2>
-      <ul>
-        <li><a href="https://arxiv.org/pdf/2507.01485" target="_blank">📄 Paper on arXiv</a></li>
-        <li><a href="https://github.com/AlexandreQ27/BioMARS" target="_blank">📦 GitHub Repository</a></li>
-        <li><a href="https://your-username.github.io/BioMARS-site/" target="_blank">🔗 Live Demo</a></li>
-      </ul>
-    </section>
-  </div>
-</body>
-</html>
+        <!-- Contact Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-4">
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-6">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
+                            <i class="fa fa-cogs text-white text-xl"></i>
+                        </div>
+                        <span class="text-xl font-bold">BioMARS</span>
+                    </div>
+                    <p class="text-gray-400 max-w-md">
+                        An intelligent platform integrating Large Language Models (LLMs), Vision–Language Models (VLMs), and modular robotics to enable autonomous biological experimentation.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="https://github.com/AlexandreQ27/BioMARS" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fa fa-github"></i>
+                        </a>
