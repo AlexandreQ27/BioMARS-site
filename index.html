@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioMARS: A Multi-Agent Robotic System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <h2>BioMARS</h2>
+    <nav>
+      <a href="#intro">Introduction</a>
+      <a href="#architecture">System Architecture</a>
+      <a href="#agents">Three-Agent Collaboration</a>
+      <a href="#results">Experiment Results</a>
+      <a href="#future">Future Work</a>
+      <a href="#resources">Resources</a>
+    </nav>
+  </div>
+
+  <div class="main">
+    <section id="intro">
+      <h1>BioMARS: A Multi-Agent Robotic System for Workflow Automation in Biological Experiments</h1>
+      <p>BioMARS pioneers full-stack automation of biological experiments by integrating large language models (LLMs) and vision-language models (VLMs) into a multi-agent robotic system.</p>
+      <p>It empowers AI agents to autonomously plan, execute, and validate biological procedures such as cell passaging and protocol optimization, reducing human workload and improving reproducibility.</p>
+    </section>
+
+    <section id="architecture">
+      <h2>System Architecture</h2>
+      <p>The BioMARS system adopts a modular design, integrating robotic control units with semantic reasoning capabilities. It supports both low-level execution and high-level autonomous decision making.</p>
+      <img src="images/system_architecture.png" alt="System Architecture" />
+    </section>
+
+    <section id="agents">
+      <h2>Three-Agent Collaboration</h2>
+      <h3>1. Biologist Agent</h3>
+      <p>Retrieves and synthesizes protocols from literature using retrieval-augmented generation (RAG), adapts them to current lab constraints (inventory, equipment), and outputs executable instructions.</p>
+
+      <h3>2. Technician Agent</h3>
+      <p>Converts natural language protocols into robotic commands. Employs dual-module generation & checking to achieve a 96.4% accuracy in instruction mapping.</p>
+
+      <h3>3. Inspector Agent</h3>
+      <p>Performs real-time error detection during experiment execution using a ViT + VLM dual-stage framework. Detects over 23 common lab anomalies with 95.7% precision.</p>
+    </section>
+
+    <section id="results">
+      <h2>Experiment Results</h2>
+      <ul>
+        <li><strong>Cell Passaging:</strong> Comparable to human performance on HeLa, Y79 lines. BioMARS achieved >92% viability, 12–18% lower coefficient of variation, and 90% time reduction.</li>
+        <li><strong>iPSC-RPE Optimization:</strong> Outperformed Bayesian and GPT-4o baselines. Reached a pigmentation score of 0.5913 in 20 iterations (vs 0.3130 and 0.4344).</li>
+      </ul>
+    </section>
+
+    <section id="future">
+      <h2>Future Work</h2>
+      <p>BioMARS aims to extend its autonomous reasoning capabilities and support broader laboratory environments. Future updates will include enhanced anomaly handling and domain-specific agent customization.</p>
+    </section>
+
+    <section id="resources">
+      <h2>Resources</h2>
+      <ul>
+        <li><a href="https://arxiv.org/pdf/2507.01485" target="_blank">📄 Paper on arXiv</a></li>
+        <li><a href="https://github.com/AlexandreQ27/BioMARS" target="_blank">📦 GitHub Repository</a></li>
+        <li><a href="https://your-username.github.io/BioMARS-site/" target="_blank">🔗 Live Demo</a></li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
